@@ -25,6 +25,13 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: npm ci
+    - name: Build
+      run: npm run build
     - name: Push to AWS S3
       run: |
         aws s3 sync --acl public-read --sse --delete dist/ s3://${AWS_S3_TARGET_BUCKET}
